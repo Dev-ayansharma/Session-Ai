@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { PreInterviewRequestSchema } from './types';
+import { ScrapeGitHubProfile } from './scraper/github';
 const app = express();
 app.use(express.json());
 app.use(cors(
@@ -9,7 +10,7 @@ app.use(cors(
 }
 ));
 
-app.get('/api/v1/start-interview', (req, res) => {
+app.post('/api/v1/start-interview', async(req, res) => {
     const {success,data} = PreInterviewRequestSchema.safeParse(req.body);
     if (!success) {
         return res.status(400).json({ error: 'Invalid request body' });
@@ -18,7 +19,9 @@ app.get('/api/v1/start-interview', (req, res) => {
     const username = url.split('/').pop();
    
     console.log(`Extracted username: ${username}`);
-
+    
+    const githubData = await ScrapeGitHubProfile(username || "");
+    return res.json({ message: 'Interview started successfully', data: githubData });
 });
 
 app.listen(4000, () => {
