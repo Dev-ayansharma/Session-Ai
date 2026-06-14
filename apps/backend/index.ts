@@ -1,1 +1,26 @@
-console.log("Hello via Bun!");
+import express from 'express';
+import cors from 'cors';
+import { PreInterviewRequestSchema } from './types';
+const app = express();
+app.use(express.json());
+app.use(cors(
+{
+    origin: 'http://localhost:3000',
+}
+));
+
+app.get('/api/v1/start-interview', (req, res) => {
+    const {success,data} = PreInterviewRequestSchema.safeParse(req.body);
+    if (!success) {
+        return res.status(400).json({ error: 'Invalid request body' });
+    }
+    const url = data.githuburl.endsWith("/") ? data.githuburl.slice(0, -1) : data.githuburl;
+    const username = url.split('/').pop();
+   
+    console.log(`Extracted username: ${username}`);
+
+});
+
+app.listen(4000, () => {
+    console.log('Server is running on port 4000');
+});
