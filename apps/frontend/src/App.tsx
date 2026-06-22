@@ -16,8 +16,8 @@ export function App() {
       <Routes>
         
         <Route path="/form" element={<Form />} />
-        <Route path="/interview/:id" element={<Interview />} />
-        <Route path="/result/:id" element={<Result />} />
+        <Route path="/interview/:interviewId" element={<Interview />} />
+        <Route path="/result/:interviewId" element={<Result />} />
       </Routes>
       </BrowserRouter>
  

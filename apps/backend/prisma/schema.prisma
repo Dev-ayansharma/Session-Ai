@@ -12,20 +12,22 @@ datasource db {
   provider = "postgresql"
 }
 
-model Interview {
-  id String  @id @default(uuid())
-  githubmetadata  Json
-  status InterviewStatus
-  score Int  @default(0)
-  messages Message[]
-  
-}
+  model Interview {
+    id String  @id @default(uuid())
+    githubmetadata  Json
+    status InterviewStatus
+    score Int  @default(0)
+    conversations Message[]
+    feedback String?
+    
+  }
 model Message {
   id String @id @default(uuid())
   message String
   interviewId String
   type  MessageType
   interview Interview @relation(fields: [interviewId], references: [id])
+
 }
 
 enum MessageType {

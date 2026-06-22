@@ -1,8 +1,8 @@
-import * as https from 'https';
-import { HttpsProxyAgent } from 'https-proxy-agent';
+
+import{ HttpsProxyAgent} from 'https-proxy-agent';
 import axios from 'axios';
 
-const agent = new HttpsProxyAgent(process.env.PROXY_URL || '');
+const agent = new HttpsProxyAgent(process.env.PROXY_URL!);
 export async function ScrapeGitHubProfile(githubusername: string) {
     const userrepos = await axios.request({
         url: `https://api.github.com/users/${githubusername}/repos`,
